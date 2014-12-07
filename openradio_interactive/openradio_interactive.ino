@@ -22,6 +22,8 @@
 
 #include <avr/pgmspace.h>
 
+#warning __PGMSPACE_H_
+
 #include <EEPROM.h>
 #include <Wire.h>
 
@@ -344,7 +346,7 @@ static void save_settings(void)
 #define MAX_CHANNEL 30
 
 // From https://docs.google.com/spreadsheets/d/1KP5XsAHPCD2FsUW5RoqCfCJYRt2o03q6RN2TroPgEKk/edit#gid=0
-PROGMEM static const uint16_t channel_list[30] = {8986, 8990, 8993, 8996, 9000,
+const prog_uint16_t channel_list[] = {8986, 8990, 8993, 8996, 9000,
     9003, 9006, 9010, 9013, 9016, 9020, 9023, 9026, 9030, 9033, 9036, 9040, 9043,
     9046, 9050, 9053, 9056, 9060, 9063, 9066, 9070, 9073, 9076, 9080, 9083};
 
@@ -354,18 +356,18 @@ static void set_channel(void)
 
     flush_input();
 
-    Serial.print(F("Enter channel number (1-50): "));
+    Serial.print(F("Enter channel number (1-30): "));
     chan = Serial.parseInt();
     Serial.println(chan);
 
     flush_input();
 
-    if (chan < MIN_CHANNEL && chan > MAX_CHANNEL) {
+    if (chan < MIN_CHANNEL || chan > MAX_CHANNEL) {
         Serial.println(F("Error: timeout or channel out of range"));
         return;
     }
 
-    uint32_t rx = channel_list[chan-1] * 1000L;
+    uint32_t rx = (uint32_t)pgm_read_word_near(channel_list + chan-1) * 1000;
     uint32_t tx = rx * 3 + 1500;
 
     set_rx_freq(rx);
