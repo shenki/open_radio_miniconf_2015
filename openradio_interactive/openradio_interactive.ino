@@ -354,7 +354,7 @@ static void save_settings(void)
 #ifdef USE_FLASH
 // From https://docs.google.com/spreadsheets/d/1KP5XsAHPCD2FsUW5RoqCfCJYRt2o03q6RN2TroPgEKk/edit#gid=0
 const prog_uint16_t channel_list[] =
-#elif
+#else
 const uint16_t channel_list[] =
 #endif
         {8986, 8990, 8993, 8996, 9000, 9003, 9006, 9010, 9013, 9016, 9020, 9023, 9026,
