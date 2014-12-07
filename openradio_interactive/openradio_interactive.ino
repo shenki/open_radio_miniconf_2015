@@ -365,7 +365,7 @@ static void set_channel(void)
         return;
     }
 
-    uint32_t rx = channel_list[chan-1] * 1000;
+    uint32_t rx = channel_list[chan-1] * 1000L;
     uint32_t tx = rx * 3 + 1500;
 
     set_rx_freq(rx);
